@@ -92,9 +92,6 @@ const Gallery = () => {
                   </div>
                 </div>
               </div>
-              <div className="p-4 bg-white">
-                <p className="text-sm text-resort-mountain">{image.alt}</p>
-              </div>
             </div>
           ))}
         </div>
