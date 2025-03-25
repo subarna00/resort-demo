@@ -30,6 +30,8 @@ const Header = () => {
     return location.pathname === path;
   };
 
+  const isHomePage = location.pathname === '/';
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -42,10 +44,14 @@ const Header = () => {
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center">
               <h1 className="text-xl sm:text-2xl font-serif font-bold tracking-tight">
-                <span className={`transition-colors duration-300 ${isScrolled ? 'text-resort-forest' : 'text-white'}`}>
+                <span className={`transition-colors duration-300 ${
+                  isScrolled || !isHomePage ? 'text-resort-forest' : 'text-white'
+                }`}>
                   Kulekhani
                 </span>
-                <span className={`transition-colors duration-300 ${isScrolled ? 'text-resort-river' : 'text-resort-stone'}`}>
+                <span className={`transition-colors duration-300 ${
+                  isScrolled || !isHomePage ? 'text-resort-river' : 'text-resort-stone'
+                }`}>
                   Resort
                 </span>
               </h1>
@@ -65,10 +71,10 @@ const Header = () => {
                 to={link.path}
                 className={`font-medium transition-colors duration-300 ${
                   isActive(link.path)
-                    ? isScrolled
+                    ? (isScrolled || !isHomePage)
                       ? 'text-resort-river'
                       : 'text-white border-b-2 border-white'
-                    : isScrolled
+                    : (isScrolled || !isHomePage)
                     ? 'text-resort-forest hover:text-resort-river'
                     : 'text-white/90 hover:text-white'
                 } link-underline`}
@@ -84,7 +90,7 @@ const Header = () => {
               type="button"
               onClick={toggleMobileMenu}
               className={`p-2 rounded-md ${
-                isScrolled ? 'text-resort-forest' : 'text-white'
+                isScrolled || !isHomePage ? 'text-resort-forest' : 'text-white'
               }`}
               aria-controls="mobile-menu"
               aria-expanded="false"
