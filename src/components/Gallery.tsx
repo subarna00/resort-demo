@@ -1,124 +1,89 @@
 
-import { useState } from 'react';
-import { X } from 'lucide-react';
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
 const Gallery = () => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
+  const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();
+  const { ref: galleryRef, isVisible: galleryVisible } = useScrollAnimation({ threshold: 0.1 });
+  
   const galleryImages = [
     {
       id: 1,
-      src: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-      alt: "Scenic waterfall view near the resort",
-      category: "nature"
+      src: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+      alt: "Infinity pool overlooking the mountains"
     },
     {
       id: 2,
-      src: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1480&q=80",
-      alt: "Luxurious resort bedroom with mountain view",
-      category: "rooms"
+      src: "https://images.unsplash.com/photo-1540541338287-41700207dee6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+      alt: "Luxurious spa treatment room"
     },
     {
       id: 3,
-      src: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-      alt: "Gourmet dining experience",
-      category: "dining"
+      src: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+      alt: "Riverside dining experience"
     },
     {
       id: 4,
-      src: "https://images.unsplash.com/photo-1540541338287-41700207dee6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-      alt: "Resort spa treatment room",
-      category: "spa"
+      src: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+      alt: "Suite interior with mountain view"
     },
     {
       id: 5,
-      src: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-      alt: "Sunrise view from resort",
-      category: "nature"
+      src: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+      alt: "Outdoor yoga platform at sunrise"
     },
     {
       id: 6,
-      src: "https://images.unsplash.com/photo-1596178060875-a8620e8d0a71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1480&q=80",
-      alt: "Outdoor swimming pool with mountain backdrop",
-      category: "amenities"
+      src: "https://images.unsplash.com/photo-1470290378174-847f844f9785?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+      alt: "Himalayan mountains seen from resort"
     }
   ];
 
-  const openLightbox = (src: string) => {
-    setSelectedImage(src);
-    document.body.style.overflow = 'hidden';
-  };
-
-  const closeLightbox = () => {
-    setSelectedImage(null);
-    document.body.style.overflow = 'auto';
-  };
-
   return (
-    <section className="section-padding" id="gallery">
+    <section className="section-padding bg-white" id="gallery">
       <div className="container mx-auto container-padding">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block text-sm text-resort-river font-medium tracking-wider uppercase border-b-2 border-resort-river">Our Gallery</span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
-            Experience <span className="text-gradient">Visual Journey</span>
-          </h2>
-          <p className="text-resort-mountain">
-            Explore our resort through stunning images that capture the essence of luxury and nature in harmony.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {galleryImages.map((image, index) => (
-            <div 
-              key={image.id} 
-              className={`rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 ${
-                index === 3 ? 'sm:col-span-2' : ''
-              }`}
-            >
-              <div 
-                className="relative group cursor-pointer h-64 sm:h-72"
-                onClick={() => openLightbox(image.src)}
-              >
-                <img 
-                  src={image.src} 
-                  alt={image.alt} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-resort-forest/0 group-hover:bg-resort-forest/20 transition-colors duration-300 flex items-center justify-center">
-                  <div className="opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-4 transition-all duration-300">
-                    <span className="bg-white/90 backdrop-blur-sm py-2 px-4 rounded-full text-sm font-medium text-resort-forest">
-                      View Image
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Lightbox */}
-      {selectedImage && (
         <div 
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
-          onClick={closeLightbox}
+          className="text-center max-w-3xl mx-auto mb-16"
+          ref={titleRef as React.RefObject<HTMLDivElement>}
         >
-          <button 
-            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors duration-300"
-            onClick={closeLightbox}
-          >
-            <X className="w-8 h-8" />
-            <span className="sr-only">Close</span>
-          </button>
-          <div className="max-w-4xl max-h-[90vh] p-2" onClick={(e) => e.stopPropagation()}>
-            <img 
-              src={selectedImage} 
-              alt="Enlarged gallery image" 
-              className="max-w-full max-h-full object-contain rounded-lg animate-scale-in"
-            />
+          <div className={`transition-all duration-1000 transform ${
+            titleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
+          }`}>
+            <span className="inline-block text-sm text-resort-river font-medium tracking-wider uppercase border-b-2 border-resort-river">Our Gallery</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
+              Experience <span className="text-gradient">Visual Journey</span>
+            </h2>
+            <p className="text-resort-mountain">
+              Take a glimpse into the extraordinary experiences that await you at Kulekhani Resort.
+            </p>
           </div>
         </div>
-      )}
+
+        <div 
+          ref={galleryRef as React.RefObject<HTMLDivElement>}
+          className={`transition-all duration-1000 delay-200 transform ${
+            galleryVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
+          }`}
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {galleryImages.map((image, index) => (
+              <div 
+                key={image.id} 
+                className={`relative rounded-lg overflow-hidden shadow-md transition-all duration-500 delay-${index * 100} transform ${
+                  galleryVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
+                }`}
+              >
+                <div className="aspect-[4/3] overflow-hidden group">
+                  <img 
+                    src={image.src} 
+                    alt={image.alt} 
+                    className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110" 
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

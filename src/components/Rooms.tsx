@@ -2,9 +2,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const Rooms = () => {
   const [activeRoom, setActiveRoom] = useState(0);
+  const { ref: sectionRef, isVisible: sectionVisible } = useScrollAnimation({ threshold: 0.1 });
 
   const rooms = [
     {
@@ -49,9 +51,11 @@ const Rooms = () => {
   };
 
   return (
-    <section className="section-padding bg-resort-sand" id="rooms">
+    <section className="section-padding bg-resort-sand" id="rooms" ref={sectionRef as React.RefObject<HTMLElement>}>
       <div className="container mx-auto container-padding">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className={`text-center max-w-3xl mx-auto mb-16 transition-all duration-1000 transform ${
+          sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
+        }`}>
           <span className="inline-block text-sm text-resort-river font-medium tracking-wider uppercase border-b-2 border-resort-river">Our Accommodations</span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
             Experience Luxurious <span className="text-gradient">Comfort</span>
@@ -62,7 +66,9 @@ const Rooms = () => {
         </div>
 
         {/* Room Tabs */}
-        <div className="max-w-5xl mx-auto mb-8">
+        <div className={`max-w-5xl mx-auto mb-8 transition-all duration-1000 delay-200 transform ${
+          sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
+        }`}>
           <div className="flex flex-wrap justify-center gap-2">
             {rooms.map((room, index) => (
               <button
@@ -81,7 +87,9 @@ const Rooms = () => {
         </div>
 
         {/* Room Display */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 items-center transition-all duration-1000 delay-400 transform ${
+          sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
+        }`}>
           {/* Room Image */}
           <div className="relative">
             {rooms.map((room, index) => (

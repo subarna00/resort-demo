@@ -1,14 +1,23 @@
 
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const About = () => {
+  const { ref: textRef, isVisible: textVisible } = useScrollAnimation();
+  const { ref: imageRef, isVisible: imageVisible } = useScrollAnimation({ threshold: 0.2 });
+
   return (
     <section className="section-padding overflow-hidden" id="about">
       <div className="container mx-auto container-padding">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="order-2 lg:order-1">
-            <div className="relative">
+          <div 
+            className="order-2 lg:order-1"
+            ref={imageRef as React.RefObject<HTMLDivElement>}
+          >
+            <div className={`relative transition-all duration-1000 transform ${
+              imageVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
+            }`}>
               <span className="block absolute -top-4 -left-4 w-24 h-24 bg-resort-stone rounded-tl-3xl z-0"></span>
               <span className="block absolute -bottom-4 -right-4 w-32 h-32 bg-resort-river/20 rounded-br-3xl z-0"></span>
               <div className="relative z-10 rounded-lg overflow-hidden shadow-xl">
@@ -27,8 +36,13 @@ const About = () => {
             </div>
           </div>
           
-          <div className="order-1 lg:order-2 lg:pl-8">
-            <div className="space-y-6">
+          <div 
+            className="order-1 lg:order-2 lg:pl-8"
+            ref={textRef as React.RefObject<HTMLDivElement>}
+          >
+            <div className={`space-y-6 transition-all duration-1000 transform ${
+              textVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
+            }`}>
               <span className="inline-block text-sm text-resort-river font-medium tracking-wider uppercase border-b-2 border-resort-river">About Us</span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
                 A Sanctuary of Luxury <br /> 

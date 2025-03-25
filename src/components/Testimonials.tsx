@@ -1,10 +1,12 @@
 
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const Testimonials = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const { ref: sectionRef, isVisible: sectionVisible } = useScrollAnimation();
 
   const testimonials = [
     {
@@ -56,9 +58,14 @@ const Testimonials = () => {
   }, [isPaused]);
 
   return (
-    <section className="section-padding relative overflow-hidden bg-gradient-to-b from-white to-resort-stone/20">
+    <section 
+      className="section-padding relative overflow-hidden bg-gradient-to-b from-white to-resort-stone/20"
+      ref={sectionRef as React.RefObject<HTMLElement>}
+    >
       <div className="container mx-auto container-padding">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className={`text-center max-w-3xl mx-auto mb-16 transition-all duration-1000 transform ${
+          sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
+        }`}>
           <span className="inline-block text-sm text-resort-river font-medium tracking-wider uppercase border-b-2 border-resort-river">Testimonials</span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
             What Our <span className="text-gradient">Guests Say</span>
@@ -77,7 +84,9 @@ const Testimonials = () => {
 
         {/* Testimonial Slider */}
         <div 
-          className="max-w-4xl mx-auto relative glass-card rounded-2xl p-8 md:p-12 z-10"
+          className={`max-w-4xl mx-auto relative glass-card rounded-2xl p-8 md:p-12 z-10 transition-all duration-1000 delay-200 transform ${
+            sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
+          }`}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
