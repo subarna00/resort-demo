@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Button } from './ui/button';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -73,19 +74,32 @@ const Hero = () => {
             {slides[currentSlide].subtitle}
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 transition-all duration-500 delay-200">
-            <Link
-              to="/booking"
-              className="button-primary flex items-center justify-center gap-2 group"
+            <Button
+              asChild
+              variant="default"
+              size="lg"
+              className="bg-resort-forest hover:bg-resort-forest/90 text-white font-medium rounded-md transition-all duration-300"
             >
-              Book Your Stay
-              <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link
-              to="/gallery"
-              className="button-secondary"
+              <Link
+                to="/booking"
+                className="flex items-center justify-center gap-2 group"
+              >
+                Book Your Stay
+                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="bg-white/90 hover:bg-white text-resort-forest border-resort-forest font-medium rounded-md transition-all duration-300"
             >
-              Explore Resort
-            </Link>
+              <Link
+                to="/gallery"
+              >
+                Explore Resort
+              </Link>
+            </Button>
           </div>
         </div>
       </div>
